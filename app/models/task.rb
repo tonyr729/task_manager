@@ -32,4 +32,18 @@ class Task
     task = database.execute("SELECT * FROM tasks WHERE id = ?", id.to_i).first
     Task.new(task)
   end
+
+  def self.update(id, task_params)
+    database.execute(
+      "UPDATE tasks
+      SET title = ?,
+      description = ?
+      WHERE id = ?;",
+      task_params[:title],
+      task_params[:description],
+      id
+    )
+
+    Task.find(id)
+  end
 end
