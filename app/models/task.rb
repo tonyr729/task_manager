@@ -18,8 +18,15 @@ class Task
     database = SQLite3::Database.new('db/task_manager_development.db')
     database.results_as_hash = true
     tasks = database.execute("SELECT * FROM tasks")
-    x = tasks.map do |task|
+    tasks.map do |task|
       Task.new(task)
     end
+  end
+
+  def self.find(id)
+    database = SQLite3::Database.new('db/task_manager_development.db')
+    database.results_as_hash = true
+    task = database.execute("SELECT * FROM tasks WHERE id = ?", id.to_i).first
+    Task.new(task)
   end
 end
